@@ -10,22 +10,26 @@ from functools import wraps
 from urllib import request
 
 
-def log_handler(func):
-    @wraps(func)
-    def with_logging(*args, **kwargs):
-        print('Start %s(%s, %s)...' % (func.__name__, args, kwargs))
-        result = func(*args, **kwargs)
-        print("return message is " + str(result))
-        return result
-    return with_logging
+def log_decorator(logfile="app.log"):
+    def log_handler(func):
+        @wraps(func)
+        def with_logging(*args, **kwargs):
+            log_str = 'Start %s(%s, %s)...' % (func.__name__, args, kwargs)
+            result = func(*args, **kwargs)
+            log_str = log_str + ("\nreturn message is " + str(result))
+            with open(logfile, 'a') as opened_file:
+                opened_file.write(log_str+"\n")
+            return result
+        return with_logging
+    return log_handler
 
 
-@log_handler
+@log_decorator("app.log")
 def add_func(x):
     return x + x
 
 
-@log_handler
+@log_decorator("app.log")
 def remove_func(name=None, age=1):
     print("name is" + name + ", age is " + str(age))
 
