@@ -5,7 +5,7 @@
 # @Version：V 0.1
 # @File : collections_demo.py
 # @desc :
-from collections import defaultdict, Counter, deque
+from collections import defaultdict, Counter, deque, namedtuple
 
 # defaultdict 与 dict 类型不同，你不需要检查 key 是否存在
 books = (('Tang History', 'Anshi Wang'),
@@ -38,3 +38,11 @@ print(d)
 d.popleft()
 print(d)
 
+# namedtuples把元组变成一个针对简单任务的容器。你不必使用整数索引来访问一个 namedtuples 的数据。
+# 你可以像字典（dict）一样访问 namedtuples，但 namedtuples 是不可变的
+Animal = namedtuple('Animal', ' name age type')
+perry = Animal(name='perry', age=31, type='tiger')
+print(perry)
+print(perry.type)
+# 转化成字典
+print(perry._asdict())
